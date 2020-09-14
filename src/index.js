@@ -2,19 +2,25 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 
-const initialState = {};
+import thunk from "redux-thunk";
 
-const reducer = (state = initialState, action) => {
-  console.log("reducer runs with", state, action);
-  return state;
-};
+import rootReducer from "./rootReducer";
 
-const store = createStore(reducer);
+import { Provider } from "react-redux";
+
+import ProductList from "./productList";
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const App = () => {
-  return <div className="container">Hello World!</div>;
+  return (
+    <Provider store={store}>
+      <div className="container">Hello World!</div>
+      <ProductList />
+    </Provider>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));
